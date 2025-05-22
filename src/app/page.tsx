@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 export default function Home() {
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
 
-  const { data, refetch } = useQuery({
+  const { data } = useQuery({
     queryKey: ['exports'],
     queryFn: async () => {
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, '');
@@ -32,18 +32,13 @@ export default function Home() {
     }
   }, [data]);
 
-
-  useEffect(() => {
-    refetch();
-  }, []);
-
   const handleExport = async () => {
     await fetch('/api/trigger-export', { method: 'POST' });
   };
 
   return (
     <main className='animate-gradient-xy flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-purple-500 via-pink-500 to-blue-300 p-24'>
-  
+
       <h1 className='text-4xl font-bold text-white'>Welcome candidate</h1>
       <button onClick={handleExport} className='rounded bg-blue-600 p-2 text-white'>
         Trigger Export
