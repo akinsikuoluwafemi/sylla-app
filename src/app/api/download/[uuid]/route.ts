@@ -1,10 +1,10 @@
 import { db } from '@/db';
 import { pdfExports } from '@/db/schema';
 import { eq } from 'drizzle-orm';
-import { NextResponse, NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(_: NextRequest, context: { params: { uuid: string } }) {
-  const { uuid } = context.params;
+export async function GET(_: NextRequest, { params }: { params: Promise<{ uuid: string }> }) {
+  const { uuid } = await params;
 
   const [item] = await db.select().from(pdfExports).where(eq(pdfExports.uuid, uuid));
 
